@@ -1,0 +1,161 @@
+<!-- <span *ngIf="showlogin; then login" *ngIf="showreset; then resetpassword"  *ngIf="showreset; then forgotpassword"></span> -->
+<ng-template #login [ngIf]="showlogin == true">
+    <div class="container login">        
+        <div class="row">
+            <div class="col-md-6 login-left">
+                <img src="assets/images/MHE_Logo_RGB1.png" class="login-logo">
+                <img src="assets/images/pod_logo.PNG" class="podLogo" alt="">
+            </div>
+            <div class="col-md-6 login-right">
+                <div class="login-container">
+                    <div class="login-header">Login</div>
+                    <div class="body-login">
+                        <form [formGroup]="userlogin" (ngSubmit)="loginUser(userlogin)">
+                            <div class="form-group">
+                                <!-- <label for="username">User Name</label> -->
+                                <input type="text" id="username" name="username" class="form-control" formControlName="username" (keyup)="loginmsg = false" placeholder="User Name" />
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="password">Password</label> -->
+                                <input type="password" id="password" name="password" class="form-control" formControlName="password" (keyup)="loginmsg = false" placeholder="Password" />
+                                <ngb-alert *ngIf="loginmsg==true" type="danger" [dismissible]="true" (close)="loginmsg = false">
+                                    {{loginerrmsg}}
+                                    <div class="bar">
+                                        <div class="in"></div>
+                                      </div>
+                                </ngb-alert>
+                            </div>
+                            <div class="form-group">
+                                <button id="loginbutton" class="btn btn-primary" type="submit">Login</button>&nbsp;
+                                <span>
+                                    <a class="anchor" (click)="showForgotPassword()">Forgot Password?</a>
+                                </span>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>            
+    </div>
+</ng-template>
+<ng-template #forgotpassword [ngIf]="showlogin != true && showreset!=true && showresetsuccess!=true">
+    <div class="container login" #forgotpassword>        
+            <div class="row">
+                <div class="col-md-6 login-left">
+                    <img src="assets/images/MHE_Logo_RGB1.png" class="login-logo">
+                    <img src="assets/images/pod_logo.PNG" class="podLogo" alt="">
+                </div>
+                <div class="col-md-6 login-right">
+                    <div class="login-container">
+                        <div class="login-header">Forgot Password</div>
+                        <div class="forgot-password">It's Okay! Reset your password</div>
+                        <div class="body-login">
+                            <form [formGroup]="forgotlogin" (ngSubmit)="forgotPassword(forgotlogin)">
+                               <div class="form-group">
+                                    <!-- <label for="username">User Name</label> -->
+                                    <input type="text" name="username" class="form-control" formControlName="username" (keyup)="forgotpasswordmsg = false" placeholder="User Name" /><br>
+                                
+                                <ngb-alert *ngIf="(forgotlogin.status == 'INVALID' || forgoterrmsg) && forgotpasswordmsg " type="danger" [dismissible]="true" (close)="forgotpasswordmsg = false">
+                                    {{forgoterrmsg}}
+                                    <div class="bar">
+                                        <div class="in"></div>
+                                      </div>
+                                </ngb-alert>
+
+                                <ngb-alert *ngIf="forgotpasswordmsgsuccess" type="success" [dismissible]="true" (close)="forgotpasswordmsgsuccess = false">
+                                    {{forgotsuccessmsg}}
+                                    <div class="bar">
+                                        <div class="in"></div>
+                                      </div>
+                                </ngb-alert>
+								</div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Continue</button>&nbsp;  
+									<span><a class="anchor" (click)="showloginfn()">Login?</a></span>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+</ng-template>
+
+<ng-template #resetpassword [ngIf]="showreset==true">
+    <div class="container login" #resetpassword>        
+            <div class="row">
+                <div class="col-md-6 login-left">
+                    <img src="assets/images/MHE_Logo_RGB1.png" class="login-logo">
+                    <img src="assets/images/pod_logo.PNG" class="podLogo" alt="">
+                </div>
+                <div class="col-md-6 login-right">
+                    <div class="login-container">
+                        <div class="login-header">Reset Password</div>
+                        <div class="body-login">
+                            <form [formGroup]="resetlogin" (ngSubmit)="resetPassword(resetlogin)">
+                                <div class="form-group">
+                                    <input type="password" name="password" class="form-control" formControlName="password" (keyup)="resetpasswordmsg = false" placeholder="Password" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="confirmpassword" class="form-control" formControlName="confirmpassword" (keyup)="resetpasswordmsg = false" placeholder="Retype Password" /><br>
+                                
+                                <ngb-alert *ngIf="resetlogin.status == 'INVALID' && resetpasswordmsg " type="danger" [dismissible]="true" (close)="resetpasswordmsg = false">
+                                    {{reseterrmsg}}
+                                    <div class="bar">
+                                        <div class="in"></div>
+                                      </div>
+                                </ngb-alert>
+
+
+                                <ngb-alert *ngIf="resetlogin.errors?.mismatch && (resetlogin.controls['confirmpassword'].dirty || resetlogin.controls['confirmpassword'].touched)" type="danger" [dismissible]="true" (close)="resetpasswordmsg = false">
+                                    Password doesn't match
+                                    <div class="bar">
+                                        <div class="in"></div>
+                                      </div>
+                                </ngb-alert>
+
+                                <!-- *ngIf="confirmedPassword.errors || signUpForm .errors?.mismatch">
+              Password doesn't match -->
+                                <ngb-alert *ngIf="resetpasswordmsgsuccess" type="success" [dismissible]="true" (close)="resetpasswordmsgsuccess = false">
+                                    {{resetsuccessmsg}}
+                                    <div class="bar">
+                                        <div class="in"></div>
+                                      </div>
+                                </ngb-alert>
+								</div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Submit</button>&nbsp;  
+									<span><a class="anchor" (click)="showloginfn()">Login?</a></span>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+</ng-template>
+
+<ng-template #resetpasswordsuccess [ngIf]="showresetsuccess==true">
+		<div class="container login" #resetpasswordsuccess>        
+            <div class="row">
+                <div class="col-md-6 login-left">
+                    <img src="assets/images/MHE_Logo_RGB1.png" class="login-logo">
+                    <img src="assets/images/pod_logo.PNG" class="podLogo" alt="">
+                </div>
+                <div class="col-md-6 login-right">
+                    <div class="login-container">
+                        <div class="login-header reset-header">Whoo Whoo!</div>
+                        <div class="forgot-password">Your password has been reset successfully!<br>Now login with your new password.</div>
+                        <div>
+						 <a matTooltipPosition="above" matTooltip="Login" href="#" [routerLink]="['login']" (click)="showloginfn()">
+						<button class="btn btn-primary" type="button" >Login</button>
+						</a>
+						</div> 
+					</div>   					
+               </div>
+			</div>           
+		</div>
+</ng-template>
