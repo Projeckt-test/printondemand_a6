@@ -62,6 +62,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AuthInterceptor } from './service/authInterceptor';
 import { EditHtmlDialogComponent } from './featureModules/editor/pod/editor/edit-html-dialog/edit-html-dialog.component';
 import { EditStyleDialogComponent } from './featureModules/editor/pod/editor/edit-style-dialog/edit-style-dialog.component';
+import { CustomInputComponent } from './featureModules/editor/pod/custom-input/custom-input.component';
+import { StyleDropdownDialogComponent } from './featureModules/editor/pod/editor/style-dropdown-dialog/style-dropdown-dialog.component';
 
 
 fontawesome.library.add(regular)
@@ -70,6 +72,8 @@ fontawesome.library.add(brands)
 
 @NgModule({
   declarations: [
+    StyleDropdownDialogComponent,
+    CustomInputComponent,
     AppComponent,
     LoginPageComponent,
     LandingPageComponent,
