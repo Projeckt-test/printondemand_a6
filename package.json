@@ -50,7 +50,9 @@
     "rxjs-compat": "^6.5.2",
     "sanitize-html": "^1.20.0",
     "tslib": "^1.9.0",
-    "zone.js": "^0.8.29"
+    "zone.js": "^0.8.29",
+    "pdfjs-dist": "2.11.338"
+
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.9",
